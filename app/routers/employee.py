@@ -20,9 +20,6 @@ router = APIRouter(
 @router.get("/")
 # def get_employees(current_user:int = Depends(oauth2.get_current_user)) -> list[schemas.EmployeeResponse]:
 def get_employees(current_user:int = Depends(oauth2.get_current_user)):
-   # set and check permissions
-    oauth2.check_permissions(current_user, ['admin','user'])
-        
     cursor.execute("SELECT * FROM employee")
     employees = cursor.fetchall()
     return employees

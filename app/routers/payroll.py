@@ -28,9 +28,6 @@ def get_payrolls(current_user: dict = Depends(oauth2.get_current_user), start_da
     - HTTPException: If no payrolls are found within the specified date range.
     """
    
-    # set and check permissions
-    oauth2.check_permissions(current_user, ['admin'])
-    
     cursor.execute("SELECT * FROM payroll p WHERE p.start_date BETWEEN %s AND %s", (start_date,end_date))
     payrolls = cursor.fetchall()
     if not payrolls:
