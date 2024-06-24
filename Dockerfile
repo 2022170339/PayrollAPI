@@ -26,10 +26,11 @@ RUN pip install -r requirements.txt
 # Copy project files to the working directory
 COPY . /app/
 
-RUN chmod +x wait-for-db.sh
+COPY ./wait-for-db.sh /app/
+RUN chmod +x /app/wait-for-db.sh
 
 # Expose the port the app runs on
 EXPOSE 3000
 
 # Command to run the app
-CMD ["./wait-for-db.sh", "localhost", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "3000"]
+CMD ["/app/wait-for-db.sh", "localhost", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "3000"]
