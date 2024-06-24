@@ -34,4 +34,4 @@ RUN chmod +x /wait-for-db.sh
 EXPOSE 3000
 
 # Command to run the app
-CMD ["./wait-for-db.sh", "db", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["./wait-for-db.sh", "db", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "3000"]
