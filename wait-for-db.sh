@@ -1,16 +1,17 @@
 #!/bin/sh
 set -e
 
-host="$1"
+host="localhost"
+postgres_user="postgres"
 shift
 cmd="$@"
 
-until pg_isready -h "$host" -U "$POSTGRES_USER"; do
+until pg_isready -h "$host" -U "$postgres_user"; do
   >&2 echo "Postgres is unavailable - sleeping"
   sleep 1
   # print host and user
   >&2 echo "Host: $host"
-  >&2 echo "User: $POSTGRES_USER"
+  >&2 echo "User: $postgres_user"
 done
 
 >&2 echo "Postgres is up - executing command"
