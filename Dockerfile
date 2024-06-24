@@ -26,6 +26,8 @@ RUN pip install -r requirements.txt
 # Copy project files to the working directory
 COPY . /app/
 
+RUN chmod +x /app/wait-for-db.sh
+
 EXPOSE 3000
 
 # Command to run the app
