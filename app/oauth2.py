@@ -47,6 +47,8 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
 
     cursor.execute("SELECT * FROM employee WHERE id = %s", (token.id,))
     employee = cursor.fetchone()
+    if employee is None:
+        raise credentials_exception
 
     cursor.execute("SELECT role FROM role WHERE employee_id = %s", (token.id,))
     roles = cursor.fetchall()
@@ -60,7 +62,7 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
 
     result = {'id': employee.get('id'), 'roles':user_roles}
 
-    # print (result)
+    logging.info(f"Current User: {result}")
 
     return result
 
