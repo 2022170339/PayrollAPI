@@ -6,6 +6,7 @@ from fastapi import HTTPException, status, Depends
 from fastapi.security.oauth2 import OAuth2PasswordBearer
 from .config import settings
 from .dbase import cursor, conn
+import logging
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
