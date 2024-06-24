@@ -26,6 +26,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.middleware("http")
+async def log_headers(request: Request, call_next):
+    print("Request Headers:", request.headers)
+    response = await call_next(request)
+    return response
+
 # include routers
 app.include_router(employee.router)
 app.include_router(auth.router)
