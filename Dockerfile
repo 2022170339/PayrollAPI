@@ -1,34 +1,11 @@
-# Use the official Python image from the Docker Hub
-FROM python:3.11-slim
+FROM python:3.9
 
-# Set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+WORKDIR /code
 
-# Set work directory
-WORKDIR /app
+COPY ./requirements.txt /code/requirements.txt
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    libssl-dev \
-    libffi-dev \
-    libpq-dev \
-    gcc \
-    postgresql-client \
-    && rm -rf /var/lib/apt/lists/*
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
-# Install python dependencies
-COPY requirements.txt /app/
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+COPY ./app /code/app
 
-# Copy project files to the working directory
-COPY . /app/
-
-RUN chmod +x /app/wait-for-db.sh
-
-EXPOSE 3000
-
-# Command to run the app
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "3000"]
+CMD ["fastapi", "run", "app/main.py", "--port", "3000", "--proxy-headers"]
