@@ -44,6 +44,7 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
         headers={"WWW-Authenticate": "Bearer"},
     )
 
+
     token = verify_token(token, credentials_exception)
 
     cursor.execute("SELECT * FROM employee WHERE id = %s", (token.id,))

@@ -75,7 +75,7 @@ def time_in(current_user: int = Depends(oauth2.get_current_user)):
         HTTPException: If the employee has already timed in.
 
     """
-    cursor.execute("SELECT * FROM attendance WHERE employee_id = %s AND DATE(start_date) = CURRENT_DATE", (str(current_user.get('id'))))
+    cursor.execute("SELECT * FROM attendance WHERE employee_id = %s AND DATE(start_date) = CURRENT_DATE", (str(current_user.get('id')),))
     attendance = cursor.fetchone()
     print(attendance)
 
