@@ -12,26 +12,24 @@ router = APIRouter(
 )
 
 @router.get("/")
-def get_payrolls(current_user: dict = Depends(oauth2.get_current_user), start_date: str=datetime.date(datetime.today()).replace(day=1), end_date: str=datetime.date(datetime.today()).replace(day=calendar.monthrange(datetime.today().year, datetime.today().month)[1])):
+def get_payrolls(current_user: dict = Depends(oauth2.get_current_user)):
     """
-    Retrieve payrolls within a specified date range.
+    Retrieve all payrolls.
 
     Parameters:
     - current_user (dict): The current user's information obtained from the OAuth2 authentication.
-    - start_date (str): The start date of the date range. Defaults to the first day of the current month.
-    - end_date (str): The end date of the date range. Defaults to the last day of the current month.
 
     Returns:
-    - List[dict]: A list of payrolls within the specified date range.
+    - List[dict]: A list of all payrolls.
 
     Raises:
-    - HTTPException: If no payrolls are found within the specified date range.
+    - HTTPException: If no payrolls are found.
     """
-   
+    
     # set and check permissions
     oauth2.check_permissions(current_user, ['admin'])
     
-    cursor.execute("SELECT * FROM payroll p WHERE p.start_date BETWEEN %s AND %s", (start_date,end_date))
+    cursor.execute("SELECT * FROM payroll")
     payrolls = cursor.fetchall()
     if not payrolls:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No payrolls found")
